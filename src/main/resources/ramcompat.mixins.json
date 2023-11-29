@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "it.hurts.sskirillss.ramcompat.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "ramcompat.refmap.json",
+  "mixins": [
+    "EntityTendonSegmentMixin",
+    "LivingEntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "entries": [
+    "ramcompat:relics/tendon_lump",
+    "ramcompat:relics/frost_robe",
+    "ramcompat:relics/stink_gland"
+  ]
+}

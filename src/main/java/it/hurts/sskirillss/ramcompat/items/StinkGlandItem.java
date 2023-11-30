@@ -188,4 +188,9 @@ public class StinkGlandItem extends RelicItem {
         if (cooldown > 0)
             NBTUtils.setInt(stack, TAG_COOLDOWN, --cooldown);
     }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
+    }
 }

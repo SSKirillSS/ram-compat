@@ -146,6 +146,9 @@ public class StinkGlandItem extends RelicItem {
                 target.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
 
                 for (Mob mob : level.getEntitiesOfClass(Mob.class, target.getBoundingBox().inflate(16))) {
+                    if (mob.getUUID().equals(target.getUUID()))
+                        continue;
+
                     if (mob.getTarget() == null || mob.getTarget().getUUID().equals(player.getUUID())) {
                         mob.setLastHurtByMob(target);
                         mob.setTarget(target);

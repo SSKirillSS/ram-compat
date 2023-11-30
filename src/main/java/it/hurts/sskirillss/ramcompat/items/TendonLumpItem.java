@@ -68,7 +68,7 @@ public class TendonLumpItem extends RelicItem {
             return;
 
         List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(AbilityUtils.getAbilityValue(stack, "tendon", "distance")))
-                .stream().filter(entry -> !entry.isDeadOrDying() && !entry.getUUID().equals(player.getUUID()) && entry.hasLineOfSight(player)).toList();
+                .stream().filter(entry -> entry.attackable() && entry.isAlive() && !entry.getUUID().equals(player.getUUID()) && entry.hasLineOfSight(player)).toList();
 
         if (targets.isEmpty())
             return;

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFart.class)
 public class EntityFartMixin {
-    @Inject(method = "onEntityHit", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onEntityHit", at = @At("HEAD"), cancellable = true, remap = false)
     public void onHitEntity(EntityHitResult hit, CallbackInfo ci) {
         EntityFart entity = (EntityFart) (Object) this;
 

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityIceShard.class)
 public class EntityIceShardMixin {
-    @Inject(method = "onEntityHit", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onEntityHit", at = @At("HEAD"), cancellable = true, remap = false)
     public void onHitEntity(EntityHitResult hit, CallbackInfo ci) {
         EntityIceShard entity = (EntityIceShard) (Object) this;
 

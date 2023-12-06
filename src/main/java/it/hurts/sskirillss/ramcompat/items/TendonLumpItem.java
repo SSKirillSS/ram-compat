@@ -13,6 +13,7 @@ import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicAbilitySt
 import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicLevelingData;
 import it.hurts.sskirillss.relics.items.relics.base.utils.AbilityUtils;
 import it.hurts.sskirillss.relics.items.relics.base.utils.LevelingUtils;
+import it.hurts.sskirillss.relics.utils.EntityUtils;
 import it.hurts.sskirillss.relics.utils.MathUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -68,7 +69,8 @@ public class TendonLumpItem extends RelicItem {
             return;
 
         List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(AbilityUtils.getAbilityValue(stack, "tendon", "distance")))
-                .stream().filter(entry -> entry.attackable() && entry.isAlive() && !entry.getUUID().equals(player.getUUID()) && entry.hasLineOfSight(player)).toList();
+                .stream().filter(entry -> entry.attackable() && entry.isAlive() && !entry.getUUID().equals(player.getUUID())
+                        && entry.hasLineOfSight(player) && !EntityUtils.isAlliedTo(player, entry)).toList();
 
         if (targets.isEmpty())
             return;

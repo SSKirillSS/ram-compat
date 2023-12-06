@@ -15,6 +15,7 @@ import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicAbilitySt
 import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicLevelingData;
 import it.hurts.sskirillss.relics.items.relics.base.utils.AbilityUtils;
 import it.hurts.sskirillss.relics.items.relics.base.utils.LevelingUtils;
+import it.hurts.sskirillss.relics.utils.EntityUtils;
 import it.hurts.sskirillss.relics.utils.MathUtils;
 import it.hurts.sskirillss.relics.utils.NBTUtils;
 import net.minecraft.sounds.SoundSource;
@@ -142,6 +143,9 @@ public class StinkGlandItem extends RelicItem {
                     target.setLastHurtByMob(null);
                     target.setTarget(null);
                 }
+
+                if (EntityUtils.isAlliedTo(player, target))
+                    continue;
 
                 target.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
 

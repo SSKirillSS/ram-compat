@@ -1,7 +1,7 @@
 package it.hurts.sskirillss.ramcompat.mixin;
 
 import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
-import it.hurts.sskirillss.relics.items.relics.base.utils.AbilityUtils;
+import it.hurts.sskirillss.ramcompat.items.FrostRobeItem;
 import it.hurts.sskirillss.relics.utils.EntityUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +18,7 @@ public class LivingEntityMixin {
 
         ItemStack stack = EntityUtils.findEquippedCurio(entity, ItemRegistry.FROST_ROBE.get());
 
-        if (!stack.isEmpty() && AbilityUtils.canUseAbility(stack, "warming"))
+        if (stack.getItem() instanceof FrostRobeItem relic && relic.canUseAbility(stack, "warming"))
             cir.setReturnValue(false);
     }
 }

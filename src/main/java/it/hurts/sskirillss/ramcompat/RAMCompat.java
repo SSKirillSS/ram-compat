@@ -11,14 +11,8 @@ public class RAMCompat {
     public static final String MODID = "ramcompat";
 
     public RAMCompat() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
-
         MinecraftForge.EVENT_BUS.register(this);
 
         ItemRegistry.register();
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-
     }
 }

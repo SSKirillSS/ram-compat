@@ -4,16 +4,18 @@ import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
 import com.github.alexthe666.alexsmobs.entity.EntityIceShard;
 import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
 import it.hurts.sskirillss.relics.client.tooltip.base.RelicStyleData;
+import it.hurts.sskirillss.relics.items.relics.base.IRelicItem;
 import it.hurts.sskirillss.relics.items.relics.base.RelicItem;
-import it.hurts.sskirillss.relics.items.relics.base.data.base.RelicData;
-import it.hurts.sskirillss.relics.items.relics.base.data.cast.AbilityCastStage;
-import it.hurts.sskirillss.relics.items.relics.base.data.cast.AbilityCastType;
-import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicAbilityData;
-import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicAbilityEntry;
-import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicAbilityStat;
-import it.hurts.sskirillss.relics.items.relics.base.data.leveling.RelicLevelingData;
-import it.hurts.sskirillss.relics.items.relics.base.utils.AbilityUtils;
-import it.hurts.sskirillss.relics.items.relics.base.utils.LevelingUtils;
+import it.hurts.sskirillss.relics.items.relics.base.data.RelicData;
+import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastStage;
+import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastType;
+import it.hurts.sskirillss.relics.items.relics.base.data.leveling.AbilitiesData;
+import it.hurts.sskirillss.relics.items.relics.base.data.leveling.AbilityData;
+import it.hurts.sskirillss.relics.items.relics.base.data.leveling.LevelingData;
+import it.hurts.sskirillss.relics.items.relics.base.data.leveling.StatData;
+import it.hurts.sskirillss.relics.items.relics.base.data.leveling.misc.UpgradeOperation;
+import it.hurts.sskirillss.relics.items.relics.base.data.loot.LootData;
+import it.hurts.sskirillss.relics.items.relics.base.data.loot.misc.LootCollections;
 import it.hurts.sskirillss.relics.utils.EntityUtils;
 import it.hurts.sskirillss.relics.utils.MathUtils;
 import net.minecraft.sounds.SoundEvents;
@@ -30,49 +32,52 @@ import top.theillusivec4.curios.api.SlotContext;
 
 public class FrostRobeItem extends RelicItem {
     @Override
-    public RelicData constructRelicData() {
+    public RelicData constructDefaultRelicData() {
         return RelicData.builder()
-                .abilityData(RelicAbilityData.builder()
-                        .ability("warming", RelicAbilityEntry.builder()
+                .abilities(AbilitiesData.builder()
+                        .ability(AbilityData.builder("warming")
                                 .maxLevel(0)
                                 .build())
-                        .ability("icicle", RelicAbilityEntry.builder()
+                        .ability(AbilityData.builder("icicle")
                                 .maxLevel(10)
-                                .active(AbilityCastType.INSTANTANEOUS)
-                                .stat("chance", RelicAbilityStat.builder()
+                                .active(CastType.INSTANTANEOUS)
+                                .stat(StatData.builder("chance")
                                         .initialValue(0.4D, 0.75D)
-                                        .upgradeModifier(RelicAbilityStat.Operation.MULTIPLY_BASE, -0.035D)
+                                        .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, -0.035D)
                                         .formatValue(value -> MathUtils.round(value * 100, 1))
                                         .build())
-                                .stat("amount", RelicAbilityStat.builder()
+                                .stat(StatData.builder("amount")
                                         .initialValue(3D, 7D)
-                                        .upgradeModifier(RelicAbilityStat.Operation.MULTIPLY_BASE, 0.5D)
+                                        .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, 0.5D)
                                         .formatValue(value -> (int) MathUtils.round(value, 0))
                                         .build())
-                                .stat("cooldown", RelicAbilityStat.builder()
+                                .stat(StatData.builder("cooldown")
                                         .initialValue(7.5D, 5D)
-                                        .upgradeModifier(RelicAbilityStat.Operation.MULTIPLY_BASE, -0.05D)
+                                        .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, -0.05D)
                                         .formatValue(value -> MathUtils.round(value, 1))
                                         .build())
                                 .build())
-                        .ability("freeze", RelicAbilityEntry.builder()
+                        .ability(AbilityData.builder("freeze")
                                 .requiredLevel(5)
                                 .maxLevel(10)
-                                .stat("chance", RelicAbilityStat.builder()
+                                .stat(StatData.builder("chance")
                                         .initialValue(0.05D, 0.15D)
-                                        .upgradeModifier(RelicAbilityStat.Operation.MULTIPLY_BASE, 0.1D)
+                                        .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, 0.1D)
                                         .formatValue(value -> MathUtils.round(value * 100, 1))
                                         .build())
-                                .stat("duration", RelicAbilityStat.builder()
+                                .stat(StatData.builder("duration")
                                         .initialValue(0.75D, 1D)
-                                        .upgradeModifier(RelicAbilityStat.Operation.MULTIPLY_BASE, 0.075D)
+                                        .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, 0.075D)
                                         .formatValue(value -> MathUtils.round(value, 2))
                                         .build())
                                 .build())
                         .build())
-                .levelingData(new RelicLevelingData(100, 10, 200))
-                .styleData(RelicStyleData.builder()
+                .leveling(new LevelingData(100, 10, 200))
+                .style(RelicStyleData.builder()
                         .borders("#dc41ff", "#832698")
+                        .build())
+                .loot(LootData.builder()
+                        .entry(LootCollections.COLD)
                         .build())
                 .build();
     }
@@ -84,28 +89,28 @@ public class FrostRobeItem extends RelicItem {
         if (!(slotContext.entity() instanceof Player player))
             return;
 
-        if (AbilityUtils.canUseAbility(stack, "warming"))
+        if (canUseAbility(stack, "warming"))
             player.setTicksFrozen(0);
     }
 
     @Override
-    public void castActiveAbility(ItemStack stack, Player player, String ability, AbilityCastType type, AbilityCastStage stage) {
-        if (!AbilityUtils.canUseAbility(stack, "icicle"))
+    public void castActiveAbility(ItemStack stack, Player player, String ability, CastType type, CastStage stage) {
+        if (!canUseAbility(stack, "icicle"))
             return;
 
         throwIcicles(player, stack);
 
-        AbilityUtils.addAbilityCooldown(stack, "icicle", (int) Math.round(AbilityUtils.getAbilityValue(stack, "icicle", "cooldown") * 20));
+        addAbilityCooldown(stack, "icicle", (int) Math.round(getAbilityValue(stack, "icicle", "cooldown") * 20));
     }
 
-    private static void throwIcicles(Player player, ItemStack stack) {
+    private void throwIcicles(Player player, ItemStack stack) {
         Level level = player.getCommandSenderWorld();
         RandomSource random = level.getRandom();
 
         boolean spawned = false;
 
-        for (int i = 0; i < (int) (AbilityUtils.getAbilityValue(stack, "icicle", "amount")); i++) {
-            if (i != 0 && random.nextDouble() > AbilityUtils.getAbilityValue(stack, "icicle", "chance"))
+        for (int i = 0; i < (int) (getAbilityValue(stack, "icicle", "amount")); i++) {
+            if (i != 0 && random.nextDouble() > getAbilityValue(stack, "icicle", "chance"))
                 continue;
 
             EntityIceShard shard = new EntityIceShard(AMEntityRegistry.ICE_SHARD.get(), level);
@@ -120,7 +125,7 @@ public class FrostRobeItem extends RelicItem {
         }
 
         if (spawned) {
-            LevelingUtils.addExperience(player, stack, 1);
+            addExperience(player, stack, 1);
 
             level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_HURT_FREEZE, SoundSource.MASTER, 1F, 2F);
         }
@@ -128,7 +133,7 @@ public class FrostRobeItem extends RelicItem {
 
     @Override
     public boolean canWalkOnPowderedSnow(SlotContext slotContext, ItemStack stack) {
-        return AbilityUtils.canUseAbility(stack, "warming");
+        return canUseAbility(stack, "warming");
     }
 
     @Mod.EventBusSubscriber
@@ -138,7 +143,7 @@ public class FrostRobeItem extends RelicItem {
             if (event.getEntity() instanceof Player player) {
                 ItemStack stack = EntityUtils.findEquippedCurio(player, ItemRegistry.FROST_ROBE.get());
 
-                if (stack.isEmpty())
+                if (!(stack.getItem() instanceof FrostRobeItem relic))
                     return;
 
                 Level level = player.getCommandSenderWorld();
@@ -148,14 +153,14 @@ public class FrostRobeItem extends RelicItem {
 
                 RandomSource random = level.getRandom();
 
-                if (AbilityUtils.canUseAbility(stack, "freeze")) {
-                    if (random.nextDouble() > AbilityUtils.getAbilityValue(stack, "freeze", "chance"))
+                if (relic.canUseAbility(stack, "freeze")) {
+                    if (random.nextDouble() > relic.getAbilityValue(stack, "freeze", "chance"))
                         return;
 
                     if (event.getSource().getEntity() instanceof LivingEntity source)
-                        source.setTicksFrozen((int) (source.getTicksFrozen() + Math.ceil(AbilityUtils.getAbilityValue(stack, "freeze", "duration") * 20)));
+                        source.setTicksFrozen((int) (source.getTicksFrozen() + Math.ceil(relic.getAbilityValue(stack, "freeze", "duration") * 20)));
 
-                    throwIcicles(player, stack);
+                    relic.throwIcicles(player, stack);
                 }
             } else if (event.getSource().getDirectEntity() instanceof EntityIceShard shard) {
                 if (!(shard.getOwner() instanceof Player player))
@@ -163,10 +168,10 @@ public class FrostRobeItem extends RelicItem {
 
                 ItemStack stack = EntityUtils.findEquippedCurio(player, ItemRegistry.FROST_ROBE.get());
 
-                if (stack.isEmpty())
+                if (!(stack.getItem() instanceof FrostRobeItem relic))
                     return;
 
-                LevelingUtils.addExperience(player, stack, 1);
+                relic.addExperience(player, stack, 1);
             }
         }
     }

@@ -3,6 +3,7 @@ package it.hurts.sskirillss.ramcompat.items;
 import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
 import com.github.alexthe666.alexsmobs.entity.EntityTendonSegment;
 import com.github.alexthe666.alexsmobs.entity.util.TendonWhipUtil;
+import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
 import it.hurts.sskirillss.relics.client.tooltip.base.RelicStyleData;
 import it.hurts.sskirillss.relics.items.relics.base.RelicItem;
 import it.hurts.sskirillss.relics.items.relics.base.data.RelicData;
@@ -20,6 +21,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
@@ -95,7 +99,21 @@ public class TendonLumpItem extends RelicItem {
         segment.setProgress(0F);
 
         TendonWhipUtil.setLastTendon(player, segment);
+    }
 
-        addExperience(player, stack, 1);
+    @Mod.EventBusSubscriber
+    public static class Events {
+        @SubscribeEvent
+        public static void onLivingHurt(LivingHurtEvent event) {
+            if (!(event.getSource().getDirectEntity() instanceof EntityTendonSegment segment) || !(event.getSource().getEntity() instanceof Player player))
+                return;
+
+            ItemStack stack = EntityUtils.findEquippedCurio(player, ItemRegistry.TENDON_LUMP.get());
+
+            if (stack.isEmpty() || !(stack.getItem() instanceof TendonLumpItem relic))
+                return;
+
+            relic.dropAllocableExperience(player.level(), event.getEntity().getEyePosition(), stack, segment.getTargetsHit() + 1);
+        }
     }
 }

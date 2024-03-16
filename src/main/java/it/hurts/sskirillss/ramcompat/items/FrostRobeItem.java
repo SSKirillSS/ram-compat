@@ -4,7 +4,6 @@ import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
 import com.github.alexthe666.alexsmobs.entity.EntityIceShard;
 import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
 import it.hurts.sskirillss.relics.client.tooltip.base.RelicStyleData;
-import it.hurts.sskirillss.relics.items.relics.base.IRelicItem;
 import it.hurts.sskirillss.relics.items.relics.base.RelicItem;
 import it.hurts.sskirillss.relics.items.relics.base.data.RelicData;
 import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastStage;
@@ -124,11 +123,8 @@ public class FrostRobeItem extends RelicItem {
             spawned = true;
         }
 
-        if (spawned) {
-            addExperience(player, stack, 1);
-
+        if (spawned)
             level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_HURT_FREEZE, SoundSource.MASTER, 1F, 2F);
-        }
     }
 
     @Override
@@ -171,7 +167,7 @@ public class FrostRobeItem extends RelicItem {
                 if (!(stack.getItem() instanceof FrostRobeItem relic))
                     return;
 
-                relic.addExperience(player, stack, 1);
+                relic.dropAllocableExperience(player.level(), event.getEntity().getEyePosition(), stack, 1);
             }
         }
     }

@@ -1,7 +1,10 @@
 package it.hurts.sskirillss.ramcompat.mixin;
 
 import com.github.alexthe666.alexsmobs.entity.EntityFart;
+import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
+import it.hurts.sskirillss.ramcompat.items.StinkGlandItem;
 import it.hurts.sskirillss.relics.utils.EntityUtils;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +17,17 @@ public class EntityFartMixin {
     public void onHitEntity(EntityHitResult hit, CallbackInfo ci) {
         EntityFart entity = (EntityFart) (Object) this;
 
-        if (EntityUtils.isAlliedTo(entity.getShooter(), hit.getEntity()))
+        if (EntityUtils.isAlliedTo(entity.getShooter(), hit.getEntity())) {
             ci.cancel();
+
+            return;
+        }
+
+        ItemStack stack = EntityUtils.findEquippedCurio(entity.getShooter(), ItemRegistry.STINK_GLAND.get());
+
+        if (stack.isEmpty() || !(stack.getItem() instanceof StinkGlandItem relic))
+            return;
+
+        relic.dropAllocableExperience(hit.getEntity().level(), hit.getEntity().getEyePosition(), stack, 1);
     }
 }

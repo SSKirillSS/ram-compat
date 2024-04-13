@@ -6,6 +6,7 @@ import com.github.alexthe666.alexsmobs.entity.EntityFart;
 import com.github.alexthe666.alexsmobs.misc.AMSoundRegistry;
 import it.hurts.sskirillss.relics.items.relics.base.RelicItem;
 import it.hurts.sskirillss.relics.items.relics.base.data.RelicData;
+import it.hurts.sskirillss.relics.items.relics.base.data.cast.CastData;
 import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastStage;
 import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastType;
 import it.hurts.sskirillss.relics.items.relics.base.data.leveling.AbilitiesData;
@@ -58,7 +59,9 @@ public class StinkGlandItem extends RelicItem {
                                 .build())
                         .ability(AbilityData.builder("dash")
                                 .maxLevel(10)
-                                .active(CastType.INSTANTANEOUS)
+                                .active(CastData.builder()
+                                        .type(CastType.INSTANTANEOUS)
+                                        .build())
                                 .stat(StatData.builder("power")
                                         .initialValue(0.75D, 1.75D)
                                         .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, 0.075D)

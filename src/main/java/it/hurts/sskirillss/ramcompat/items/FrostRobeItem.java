@@ -5,6 +5,7 @@ import com.github.alexthe666.alexsmobs.entity.EntityIceShard;
 import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
 import it.hurts.sskirillss.relics.items.relics.base.RelicItem;
 import it.hurts.sskirillss.relics.items.relics.base.data.RelicData;
+import it.hurts.sskirillss.relics.items.relics.base.data.cast.CastData;
 import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastStage;
 import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastType;
 import it.hurts.sskirillss.relics.items.relics.base.data.leveling.AbilitiesData;
@@ -38,7 +39,9 @@ public class FrostRobeItem extends RelicItem {
                                 .build())
                         .ability(AbilityData.builder("icicle")
                                 .maxLevel(10)
-                                .active(CastType.INSTANTANEOUS)
+                                .active(CastData.builder()
+                                        .type(CastType.INSTANTANEOUS)
+                                        .build())
                                 .stat(StatData.builder("chance")
                                         .initialValue(0.4D, 0.75D)
                                         .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, -0.035D)

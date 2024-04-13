@@ -6,6 +6,7 @@ import com.github.alexthe666.alexsmobs.entity.util.TendonWhipUtil;
 import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
 import it.hurts.sskirillss.relics.items.relics.base.RelicItem;
 import it.hurts.sskirillss.relics.items.relics.base.data.RelicData;
+import it.hurts.sskirillss.relics.items.relics.base.data.cast.CastData;
 import it.hurts.sskirillss.relics.items.relics.base.data.cast.misc.CastType;
 import it.hurts.sskirillss.relics.items.relics.base.data.leveling.AbilitiesData;
 import it.hurts.sskirillss.relics.items.relics.base.data.leveling.AbilityData;
@@ -34,7 +35,9 @@ public class TendonLumpItem extends RelicItem {
                 .abilities(AbilitiesData.builder()
                         .ability(AbilityData.builder("tendon")
                                 .maxLevel(10)
-                                .active(CastType.TOGGLEABLE)
+                                .active(CastData.builder()
+                                        .type(CastType.TOGGLEABLE)
+                                        .build())
                                 .stat(StatData.builder("distance")
                                         .initialValue(3D, 5D)
                                         .upgradeModifier(UpgradeOperation.MULTIPLY_BASE, 0.25D)

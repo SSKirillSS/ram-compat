@@ -112,7 +112,7 @@ public class TendonLumpItem extends RelicItem {
             if (stack.isEmpty() || !(stack.getItem() instanceof TendonLumpItem relic))
                 return;
 
-            relic.dropAllocableExperience(player.level(), event.getEntity().getEyePosition(), stack, segment.getTargetsHit() + 1);
+            relic.spreadExperience(player, stack, segment.getTargetsHit() + 1);
         }
     }
 }

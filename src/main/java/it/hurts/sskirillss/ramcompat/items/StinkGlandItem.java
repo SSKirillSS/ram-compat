@@ -111,7 +111,7 @@ public class StinkGlandItem extends RelicItem {
             level.playSound(null, player.blockPosition(), AMSoundRegistry.STINK_RAY.get(), SoundSource.MASTER, 1F, 0.9F + (MathUtils.randomFloat(random) * 0.2F));
 
             if (!level.isClientSide())
-                addExperience(player, stack, 1);
+                spreadExperience(player, stack, 1);
 
             addAbilityCooldown(stack, "dash", (int) Math.round(getAbilityValue(stack, "dash", "cooldown") * 20));
         }
@@ -163,7 +163,7 @@ public class StinkGlandItem extends RelicItem {
             }
 
             if (!level.isClientSide() && duration % 20 == 0)
-                addExperience(player, stack, 1);
+                spreadExperience(player, stack, 1);
 
             if (player.tickCount % 3 == 0)
                 level.playSound(null, player.blockPosition(), AMSoundRegistry.SKUNK_SPRAY.get(), SoundSource.MASTER, 1F, 1F);

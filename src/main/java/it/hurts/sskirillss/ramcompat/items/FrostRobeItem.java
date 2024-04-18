@@ -166,7 +166,7 @@ public class FrostRobeItem extends RelicItem {
                 if (!(stack.getItem() instanceof FrostRobeItem relic))
                     return;
 
-                relic.dropAllocableExperience(player.level(), event.getEntity().getEyePosition(), stack, 1);
+                relic.spreadExperience(player, stack, 1);
             }
         }
     }

@@ -4,6 +4,7 @@ import com.github.alexthe666.alexsmobs.entity.EntityFart;
 import it.hurts.sskirillss.ramcompat.init.ItemRegistry;
 import it.hurts.sskirillss.ramcompat.items.StinkGlandItem;
 import it.hurts.sskirillss.relics.utils.EntityUtils;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,6 +29,6 @@ public class EntityFartMixin {
         if (stack.isEmpty() || !(stack.getItem() instanceof StinkGlandItem relic))
             return;
 
-        relic.dropAllocableExperience(hit.getEntity().level(), hit.getEntity().getEyePosition(), stack, 1);
+        relic.spreadExperience((LivingEntity) entity.getShooter(), stack, 1);
     }
 }
